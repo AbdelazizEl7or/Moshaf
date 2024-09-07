@@ -1,4 +1,4 @@
-# Moshaf web app
+# Moshaf web app [DEMO](http://moshaf2.surge.sh/)
 
 ## It is a website that displays an electronic Qur’an for reading and listening, along with many other features.
 
