@@ -1,0 +1,1182 @@
+<div class="overlay" [style.opacity]="opacity">
+
+</div>
+<!-- <app-slider></app-slider> -->
+<div *ngIf="offline">
+  <div class="status">
+    <div class="offline-msg">انت غير متصل بالإنترنت 😢</div>
+    <br>
+    <div class="online-msg">بالرجاء اللإتصال 🔗</div>
+  </div>
+</div>
+<nb-layout *ngIf="!offline">
+  <nb-layout-header fixed *ngIf="isSingle || windowWidht <=800" class="animate__animated"
+    [class.animate__backOutUp]="!showTool" [class.animate__backInDown]="showTool">
+    <button class="btn btn-lg btn-primary" (click)="openList(content,'start');refresh()"><i class="fa-duotone fa-list"
+        style="--fa-primary-color: #00bcdd; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 0.9;font-size: 22px;"></i>
+    </button>
+    <button *ngIf="vv(1)" class="btn btn-lg btn-primary ms-1" (click)="openBookMark(bookmarks)"><i
+        class="fa-duotone fa-book-bookmark"
+        style="--fa-primary-color: #0e1523; --fa-secondary-color: #223355; --fa-secondary-opacity: 0.5;"></i>
+    </button>
+    <div style="
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 24px;
+">
+      <div *ngIf="isSingle">
+        <label for="customRange1" style="direction: rtl;width: 100%;" class="form-label"> تكبير <i
+            class="fa fa-search"></i></label>
+        <input #Zooom (change)="changeZoom(Zooom)" type="range" min="1" max="100" step="0.5" [value]="Zoom"
+          class="form-range" id="chch" style="direction: rtl;width: 100%;">
+      </div>
+    </div>
+    <button onclick="$('#el').toggle(100)" class="btn btn-primary">
+      <i class="fa-duotone fa-volume-high"
+        style="--fa-primary-color: #00bcdd; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 0.9;font-size: 22px;"></i>
+    </button>
+  </nb-layout-header>
+
+  <nb-layout-column style="padding: 0;">
+    <div style="width: 100%;height: 100%;">
+      <div *ngIf="startLoad" style="
+text-align: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: black;
+    color: white!important;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999999999;
+">
+        <div style="
+text-align: center;
+display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: black;
+    color: white!important;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999999999;
+">
+          <h6 style="
+    width: 127px;color: white !important;
+    ">  </h6>
+          <span
+            class="d-flex justify-content-center align-items-center position-fixed fs-4 vw-100 vh-100 loading-backdrop">
+            <span class="spinner-border text-info" style="width: 8rem; height: 8rem;    box-shadow: 1px 1px 24px 10px;"
+              role="status" aria-hidden="true"></span>
+            <span class="visually-hidden">Loading...</span>
+          </span>
+        </div>
+
+      </div>
+      <div>
+        <div *ngIf="!isSingle" [hidden]="!bookShow">
+          <div style="
+text-align: center;
+display: flex;
+align-items: center;
+width: 100%;
+justify-content: center;
+">
+            <div id="flipbook3" *ngIf="currentMoshaf == 3">
+              <div class="Page">القران الكريم برواية ورش عن نافع</div>
+            </div>
+          </div>
+          <div style="
+text-align: center;
+display: flex;
+align-items: center;
+width: 100%;
+justify-content: center;
+">
+            <div id="flipbook1" *ngIf="currentMoshaf == 1">
+              <div class="Page">القران الكريم برواية حفص عن عاصم</div>
+            </div>
+          </div>
+          <div style="
+text-align: center;
+display: flex;
+align-items: center;
+width: 100%;
+justify-content: center;
+">
+            <div id="flipbook2" *ngIf="currentMoshaf == 2">
+              <div class="Page">(مجود) القران الكريم برواية حفص عن عاصم</div>
+            </div>
+          </div>
+          <div style="
+          text-align: center;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          justify-content: center;
+          ">
+            <div id="flipbook5" *ngIf="currentMoshaf == 5">
+              <div class="Page">(مجود) القران الكريم برواية ورش عن نافع</div>
+            </div>
+          </div>
+          <div style="
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    justify-content: center;
+                    ">
+            <div id="flipbook4" *ngIf="currentMoshaf == 4">
+              <div class="Page">2 (مجود) القران الكريم برواية حفص عن عاصم</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isSingle">
+          <div *ngIf="buttonsSow">
+            <label for="customRange1" style="direction: rtl;width: 100%;" class="form-label"> تكبير <i
+                class="fa fa-search"></i></label>
+            <input #Zooom (change)="Image.style.width=Zooom.value+'%';Zoom=+Zooom.value" type="range" min="1" max="100"
+              step="0.5" [value]="Zoom" class="form-range" id="chch" style="direction: rtl;width: 100%;">
+          </div>
+          <!-- <p style="direction: rtl;"> * يمكنك الضغط على نصف الصفحة الأيمن والأيسر للتجول بين الصفحات</p> -->
+
+          <div id="imgloader" class="animate__animated animate__backInDown" style="
+             position: fixed;
+    width: 100%;
+    height: 100%;
+      ">
+            <div class="d-flex justify-content-center align-items-center">
+              <mat-spinner color="success"></mat-spinner>
+            </div>
+          </div>
+          <div style="width: 100%;height: 100%;    display: flex;
+    justify-content: center;">
+            <div style="width: 50%;
+      position: fixed;left: 0;z-index: 99;height: 100%;" (click)="pageIndex!=604?goto(pageIndex+1):goto(pageIndex);"
+              onclick="$('#imgloader').removeClass('animate__bounceOut')" id="left">
+            </div>
+            <div style="width: 50%;
+      position: fixed;z-index: 99; right: 0;height: 100%;" (click)="pageIndex!=1?goto(pageIndex-1):goto(pageIndex);"
+              onclick="$('#imgloader').removeClass('animate__bounceOut')" id="right">
+            </div>
+            <img *ngIf="pageIndex < 605" style="display: none;" [src]="this.getMoshafUrl(pageIndex+1)">
+            <img *ngIf="pageIndex > 1" style="display: none;" [src]="this.getMoshafUrl(pageIndex-1)">
+            <img #Image id="imageing" [src]="this.getMoshafUrl(pageIndex)" [style.width]="Zoom ? Zoom +'%':windowHight / 1.6+'px' "
+              onload="$('#imgloader').addClass('animate__bounceOut');" />
+          </div>
+        </div>
+      </div>
+      <button *ngIf="buttonsSow" class="btn btn-lg btn-primary" style="
+position: fixed;
+right: 0;
+top: 0;z-index: 99999999;
+" (click)="openList(content,'start');refresh()"><i class="fa-duotone fa-list"
+          style="--fa-primary-color: #00bcdd; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 0.9;font-size: 22px;"></i>
+      </button>
+      <button *ngIf="buttonsSow &&vv(1)" class="btn btn-lg btn-primary" style="
+      position: fixed;
+      right: 60px;
+      top: 0;z-index: 99999999;
+      " (click)="openBookMark(bookmarks)"><i class="fa-duotone fa-book-bookmark"
+          style="--fa-primary-color: #0e1523; --fa-secondary-color: #223355; --fa-secondary-opacity: 0.5;"></i>
+      </button>
+      <ng-template #setting let-offcanvas>
+        <div class="offcanvas-header">
+          <h4 class="offcanvas-title" id="offcanvas-basic-title">الإعدادات </h4>
+          <button type="button" class="btn-close" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+        </div>
+        <div class="offcanvas-body" #up>
+
+          <nb-accordion>
+            <nb-accordion-item>
+              <nb-accordion-item-header>
+                إعدادات السمة و الألوان
+              </nb-accordion-item-header>
+              <nb-accordion-item-body class="hightT">
+                <select (change)="chageTheme($any($event).target.value)" class="form-select" status="primary"
+                  [value]="theme">
+                  <option value="default">إفتراضي</option>
+                  <option value="dark">داكن</option>
+                  <option value="cosmic">كوني</option>
+                  <option value="corporate">شركة كبرى</option>
+                  <option value="pink"> وردي</option>
+                  <option value="blue"> أزرق</option>
+                  <option value="red"> أحمر</option>
+                  <option value="green"> أخضر</option>
+                  <option value="yellow"> أصفر</option>
+                  <option value="cyan"> سماوي</option>
+                </select>
+                <label for="customRange1" class="form-label">السطوع</label>
+                <input type="range" min="0" max="0.8" step="0.000000000001" class="form-range" id="customRange1"
+                  [value]="opacity" (change)="opacity =$any($event.target).value">
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+            <nb-accordion-item>
+              <nb-accordion-item-header>
+                إعدادات المصحف و التفاسير
+              </nb-accordion-item-header>
+              <nb-accordion-item-body class="hightT">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="dropdown my-2">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        المصحف
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><button (click)="changeMoshaf(3);offcanvas.close();closeAll();" class="dropdown-item">ورش عن
+                            نافع </button></li>
+                        <li><button (click)="changeMoshaf(1);offcanvas.close();closeAll();" class="dropdown-item">حفص عن
+                            عاصم</button></li>
+                        <li><button (click)="changeMoshaf(2);offcanvas.close();closeAll();" class="dropdown-item">حفص عن
+                            عاصم
+                            (مجود)</button>
+                        </li>
+                        <li><button (click)="changeMoshaf(5);offcanvas.close();closeAll();" class="dropdown-item">حفص عن
+                            عاصم
+                            2 (مجود)</button>
+                        </li>
+                        <li><button (click)="changeMoshaf(4);offcanvas.close();closeAll();" class="dropdown-item">
+                            ورش عن نافع
+                            (مجود)</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-secondary my-2" (click)="offcanvas.close();closeAll();open2m(dialogContent2)"
+                      type="button">
+                      التفاسير
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="!mobileAndTabletCheck()" class="mb-3 form-check form-switch">
+                  <input class="form-check-input" (change)="isSingle = !isSingle;changeMoshaf(currentMoshaf,'aaaaaa')"
+                    type="checkbox" role="switch" id="flexSwitchCheckChecked" [checked]="isSingle">
+                  <label class="form-check-label" for="flexSwitchCheckChecked">صفحة واحدة </label>
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+            <nb-accordion-item>
+              <nb-accordion-item-header>
+                إعدادات مواقيت الصلاة والأذان
+              </nb-accordion-item-header>
+              <nb-accordion-item-body class="">
+                <div class="dropdown my-2">
+                  <button onclick="$(this).parent().parent().parent().toggleClass('hightTTT')"
+                    class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    صوت الأذان
+                  </button>
+                  <ul class="dropdown-menu" style="    max-width: 100%;">
+                    <li><button (click)="currazane='azan1'" [class.active]="currazane=='azan1'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan1.mp3"></audio><button (click)="currazane='azan1'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan2'" [class.active]="currazane=='azan2'"
+                        class="dropdown-item d-flex align-items-center"><audio controls src="/assets/azan2.mp3"></audio>
+                        <button (click)="currazane='azan2'" class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan3'" [class.active]="currazane=='azan3'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan3.mp3"></audio><button (click)="currazane='azan3'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan4'" [class.active]="currazane=='azan4'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan4.mp3"></audio><button (click)="currazane='azan4'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan5'" [class.active]="currazane=='azan5'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan5.mp3"></audio><button (click)="currazane='azan5'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan6'" [class.active]="currazane=='azan6'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan6.mp3"></audio><button (click)="currazane='azan6'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan7'" [class.active]="currazane=='azan7'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan7.mp3"></audio><button (click)="currazane='azan7'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan8'" [class.active]="currazane=='azan8'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan8.mp3"></audio><button (click)="currazane='azan8'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan9'" [class.active]="currazane=='azan9'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan9.mp3"></audio><button (click)="currazane='azan9'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                    <li><button (click)="currazane='azan10'" [class.active]="currazane=='azan10'"
+                        class="dropdown-item d-flex align-items-center"><audio controls
+                          src="/assets/azan10.mp3"></audio><button (click)="currazane='azan10'"
+                          class="btn btn-primary me-1">أختر</button></button>
+                    </li>
+                  </ul>
+
+                  <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="offcanvas.dismiss();tahdithalmoca()">
+                    تحديث موقعك الحالي لمواقيت الصلاة <i class="fa-duotone fa-location fa-spin"></i>
+                  </button>
+                  <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="offcanvas.dismiss();oddrtyen()">
+                    إختر بلد لمواقيت الصلاة<i class="fa-duotone fa-location-arrow fa-shake"></i>
+                  </button>
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+            <nb-accordion-item>
+              <nb-accordion-item-header>
+                إعدادات القران المسموع
+              </nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="mb-3 form-check form-switch">
+                      <input class="form-check-input" (change)="autoPlay = !autoPlay;" type="checkbox" role="switch"
+                        id="flexSwitchCheckChecked" [checked]="autoPlay">
+                      <label class="form-check-label" for="flexSwitchCheckChecked"> ميزة التشغيل التلقائي عند إختيار
+                        القارئ</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="mb-3 form-check form-switch">
+                      <input class="form-check-input" (change)="loade = !loade;" type="checkbox" role="switch"
+                        id="flexSwitchCheckChecked" [checked]="loade">
+                      <label class="form-check-label" for="flexSwitchCheckChecked">تكرار السورة عند إنتهائها <i
+                          class="fa-duotone fa-rotate fa-spin" style="--fa-secondary-opacity: 0.7;"></i> </label>
+                    </div>
+                  </div>
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+            <nb-accordion-item>
+              <nb-accordion-item-header>
+                إعدادات الأسئلة
+              </nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <div class="btn btn-danger" (click)="deleteAlldun(setting);offcanvas.dismiss(); closeAll();">حذف جميع
+                  بيانات الأسئلة المجابة</div>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+          <div class="text-end">
+            <!-- <button type="button" class="btn btn-outline-dark" (click)="offcanvas.close('Save click')">Save</button> -->
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #content let-offcanvas>
+        <div class="offcanvas-header">
+          <button class="btn btn-lg btn-primary" *ngIf="up.scrollTop >= 500" (click)="goUp(up)"><i
+              class="fa fa-arrow-up"></i></button>
+          <h4 class="offcanvas-title" id="offcanvas-basic-title"></h4>
+          <button type="button" class="btn-close" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+        </div>
+        <div class="offcanvas-body" #up>
+          <div *ngIf="currentAth" class="d-flex p-2 justify-content-center">
+            <div *ngIf="vv(1)">
+              <h4>الأذان</h4>
+              <i class="fa-duotone fa-play-pause fa-fade bg-info rounded-1 p-4" (click)="stop()"
+                [class.fa-fade]="currentAth.paused"
+                style="--fa-primary-color: #000000; --fa-secondary-color: #000000;"></i>
+            </div>
+          </div>
+          <div style="
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+">
+            <div *ngIf="!Mawaqit" style="
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        "><mat-spinner color="success"></mat-spinner>
+            </div>
+            <div class="row" style="direction: rtl;" *ngIf="Mawaqit">
+              <div>
+                <i class="fa-duotone fa-mosque "
+                  style="--fa-secondary-opacity: 0.6;--fa-primary-color: green;font-size: 47px;padding: 9px;"></i>
+                <h3 class="d-inline-block" style="color: white;">مواقيت الصلاة</h3>
+              </div>
+              <div class="col-2">الفجر</div>
+              <div class="col-2 text-center">الشروق</div>
+              <div class="col-2 text-center">الظهر</div>
+              <div class="col-2 text-center">العصر</div>
+              <div class="col-2 text-center">المغرب</div>
+              <div class="col-2 text-center">العشاء</div>
+            </div>
+            <div class="row" style="direction: rtl;" *ngIf="Mawaqit">
+              <div class="col-2 text-center">{{((Mawaqit.fagr.Hours + 11) % 12 + 1)}}:{{Mawaqit.fagr.Minutes}}</div>
+              <div class="col-2 text-center">{{((Mawaqit.shrock.Hours + 11) % 12 + 1)}}:{{Mawaqit.shrock.Minutes}}</div>
+              <div class="col-2 text-center">{{((Mawaqit.dohr.Hours + 11) % 12 + 1)}}:{{Mawaqit.dohr.Minutes}}</div>
+              <div class="col-2 text-center">{{((Mawaqit.asr.Hours + 11) % 12 + 1)}}:{{Mawaqit.asr.Minutes}}</div>
+              <div class="col-2 text-center">{{((Mawaqit.magrep.Hours + 11) % 12 + 1)}}:{{Mawaqit.magrep.Minutes}}</div>
+              <div class="col-2 text-center">{{((Mawaqit.ashaa.Hours + 11) % 12 + 1)}}:{{Mawaqit.ashaa.Minutes}}</div>
+            </div>
+
+            <div class="my-1"><strong>الصلاة القادمة : {{nextPrar}}</strong></div>
+            <div class="my-1"><strong>يتبقى :{{nextPrarTime}}</strong></div>
+            <div class="my-1">{{sdate}}</div>
+            <div>{{Time}}</div>
+            <div>{{location.country_name}}</div>
+            <div>{{location.state != location.city? location.state:''}}</div>
+            <div>{{location.city}}</div>
+          </div>
+
+          <div style="direction: rtl;text-overflow: unset  !important;">
+            <button class="btn btn-lg btn-danger  mx-1 my-1 w-100" *ngIf="!vi" (click)="upv()"> تحديث البرنامج <i
+                class="fa-duotone fa-wrench  fa-shake"
+                style="--fa-primary-color: #1e3050; --fa-secondary-color: #1e3050;"></i>
+            </button>
+            <button class="btn btn-lg btn-primary mx-1 my-1 w-100"
+                (click)="offcanvas.dismiss();openList(setting,'end')">
+                الإعدادات <i class="fa-duotone fa-gear fa-spin"></i>
+              </button>
+            <nb-accordion>
+              <nb-accordion-item>
+               <nb-accordion-item-header><p class="m-0" style="width: 100%; text-align: center; font-size: large;">اضافات </p></nb-accordion-item-header>
+               <nb-accordion-item-body>
+                <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="open2m(help);offcanvas.dismiss()"> مساعدة <i
+                  class="fa-duotone fa-question-circle"></i> </button>
+              
+              <hr>
+             <!--  <button class="btn btn-lg btn-primary mx-1 my-1 w-100"
+                (click)="offcanvas.close('Save click');openTafsir();closeAll()">تفسير القران
+                الكريم <i class="fa-duotone fa-globe fa-flip"
+                  style="--fa-primary-color: #ffffff; --fa-secondary-color: #000000; --fa-secondary-opacity: 0.4;"></i></button> -->
+               <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="ahadithsarch = ahadith;open2m(hadishShow)">
+                الأحاديث <i class="fa-duotone fa-mosque fa-beat-fade" style="--fa-secondary-opacity: 0.6;"></i>
+              </button> 
+              <button class="btn btn-lg btn-primary mx-1 my-1 w-100"
+                (click)="offcanvas.dismiss();Siras = Siras1;open2m(SirasMod)" *ngIf="vv(1)">
+                سيرة النبي (صلى الله عليه وسلم) والصحابة <i class="fa-duotone fa-book-open fa-beat-fade"
+                  style="--fa-secondary-opacity: 0.6;"></i>
+              </button>
+              <button class="btn btn-lg  btn-primary mx-1 my-1 w-100 demo-section" *ngIf="vv(1)"
+                (click)="surahs = surahsgood;open2m(surahsShow)">
+                أيات القران الكريم <i class="fa-duotone fa-book-quran"
+                  style="--fa-primary-color: #000000; --fa-secondary-color: #000000;"></i>
+              </button>
+              <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="open2m(AssmaDialog);offcanvas.dismiss()">
+                أسماء الله الحسنى <i class="fa-duotone fa-star-and-crescent"></i>
+              </button>
+              <button class="btn btn-lg btn-primary mx-1 my-1 w-100"
+                (click)="open2m(TimeDialog,'sm');offcanvas.dismiss()">
+                الوقت والتاريخ <i class="fa-duotone fa-clock"></i>
+              </button>
+             <!--  <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="open2m(mohadrDialog);offcanvas.dismiss()">
+                تعلم رواية ورش عن نافع <i class="fa-duotone fa-film"></i>
+              </button> -->
+              <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="open2m(azkar12)">
+                الأذكار <i class="fa-duotone fa-sunrise fa-bounce"
+                  style="--fa-primary-color: #000000; --fa-secondary-color: #ffd922; --fa-secondary-opacity: 1;"></i>
+              </button>
+              <button class="btn btn-lg btn-primary mx-1 my-1 w-100" (click)="open2m(TestDialog);offcanvas.dismiss()">
+                أسئلة إسلامية <i class="fa-duotone fa-block-question fa-fade"
+                  style="--fa-primary-color: #aaaaaa; --fa-secondary-color: #00009b; --fa-secondary-opacity: 1;"></i>
+              </button>
+               </nb-accordion-item-body>
+              </nb-accordion-item>
+             </nb-accordion>
+            
+          </div>
+          <div class="input-group my-3" style="
+    direction: rtl;
+">
+            <button class="input-group-text btn btn-dark" id="basic-addon1" (click)="SarchSoras(search.value)"><i
+                class="fa fa-duotone fa-search"></i></button>
+            <input #search (keyup)="SarchSoras(search.value)" type="text" class="form-control" placeholder="بحث عن سورة"
+              aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div *ngIf="Soars.length == 0 && !search.value" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <button onclick="this.children[0].children[1].click()" class="btn col-12 btn-info gopage my-1" *ngFor="let item of Soars;index as i" style="width: 100%;">
+            <div>
+              <p class="text-center m-0">{{item.name}}</p>
+              <button class="btn tr"
+                onclick="event.stopPropagation();$(this).next().slideToggle();if($(this).hasClass('rotated'))$(this).removeClass('rotated');else $(this).addClass('rotated')">
+                <i class="fa-regular fa-chevrons-down" [class.fa-beat]="currentAudio.id == item.id+1"></i></button>
+              <div class="row" style="display: none;">
+                <button class=" btn-secondary btn" style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      " (click)="$event.stopPropagation();playAudio(item.page,dialogContent,item.id);"><i
+                    class="fa-duotone fa-volume-high" [class.fa-beat]="currentAudio.id == item.id+1"
+                    style="--fa-primary-color: #00bcdd; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 0.9;font-size: 22px;"></i>
+                  سماع
+                </button>
+               <!--  <button class=" btn-success btn my-1" style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      " (click)="$event.stopPropagation();offcanvas.close('Save click');open2msor(Soura,item.id)"><i
+                    class="fa-duotone fa-circle-info"></i> معلومات</button> -->
+                <!-- <button class=" btn-primary btn" style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      " (click)="$event.stopPropagation();offcanvas.close('Save click');openSouraTafsir(item.id)"><i
+                    class="fa-duotone fa-globe"></i> تفسير</button> -->
+                <button class=" btn-secondary btn  my-1" style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                " (click)="$event.stopPropagation();offcanvas.close('Save click');goto(item.page)"><i
+                    class="fa-duotone fa-share"></i> الذهاب لسورة
+                  {{item.name}}</button>
+
+              </div>
+            </div>
+          </button>
+          <div class="text-end">
+            <!-- <button type="button" class="btn btn-outline-dark" (click)="offcanvas.close('Save click')">Save</button> -->
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #bookmarks>
+        <div #ipp>
+          <mat-selection-list #currenMarks [multiple]="false" style="color:white !important">
+            <mat-list-option onclick="$('mat-bottom-sheet-container')[0].scrollTo(100000,100000)"
+              *ngFor="let mark of _currentBookMarks" [value]="mark" style="color:white !important">
+              <div class="d-flex justify-content-between my-2" style="color:white !important">
+                <div style="color:white !important">{{mark.page}}</div>
+                <div style="color:white !important"> {{mark.name}}</div>
+              </div>
+            </mat-list-option>
+
+            <mat-list-option value="Add" style="color:white !important">
+              <i style="color:white !important"> إحفظ الصفحة الحالية <i class="fa-duotone fa-plus"></i></i>
+            </mat-list-option>
+          </mat-selection-list>
+          <div class="d-flex justify-content-between my-2"
+            *ngIf="currenMarks.selectedOptions.hasValue() &&currenMarks.selectedOptions.selected[0].value !='Add'">
+            <button class="btn btn-danger"
+              (click)="DeleteBookMark(currenMarks.selectedOptions.selected[0].value.id);currenMarks.selectedOptions.clear();"><i
+                class="fa-duotone fa-bookmark-slash"></i></button>
+            <button class="btn btn-success"
+              (click)="closebook();goto(+currenMarks.selectedOptions.selected[0].value.page)"><i
+                class="fa-duotone fa-share"></i></button>
+            <button class="btn btn-info"
+              (click)="UpdateBookMark(currenMarks.selectedOptions.selected[0].value.id);currenMarks.selectedOptions.clear();"><i
+                class="fa-duotone fa-file-pen"></i></button>
+          </div>
+          <div class="d-flex justify-content-between my-2"
+            *ngIf="currenMarks.selectedOptions.selected[0]&&currenMarks.selectedOptions.selected[0].value =='Add'">
+            <button class="btn btn-primary" [disabled]="!name.value"
+              (click)="AddBookMark(name.value);currenMarks.selectedOptions.clear();log(currentBookMarks)"><i
+                class="fa-duotone fa-plus"></i></button>
+            <mat-form-field class="example-full-width">
+              <mat-label>الإسم</mat-label>
+              <input #name style="direction: rtl;" matInput placeholder="الإسم" value="">
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #surahsShow let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            أيات القران الكريم</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <div class="input-group my-3" style="
+          direction: rtl;
+      "><button class="input-group-text btn btn-dark" id="basic-addon1" (click)="SarchAthkar(search.value)"><i
+                class="fa fa-duotone fa-search"></i></button>
+            <input #search (keyup)="Sarchsorah(search.value)" type="text" class="form-control" placeholder="بحث عن أية"
+              aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12"
+              *ngFor="let item of ayahs.slice(ayahsgoodI * 20,(ayahsgoodI * 20)+20);index as i">
+              <button style="width: 98%;" (click)="closeAll();modal.dismiss();openayah(item,surahsShow);" class="mb-2"
+                nbButton hero status="success">{{$any(item).text |slice:0:50}} ...</button>
+            </div>
+          </div>
+          <button class="mx-2" *ngIf="ayahsgoodI!=0" mat-raised-button color="accent"
+            (click)="ayahsgoodI=ayahsgoodI-1;"><i class="fa-duotone fa-forward fa-fade"
+              style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة </button>
+          <button *ngIf="ayahsgoodI<(ayahs.length / 20)" mat-raised-button color="primary"
+            (click)="ayahsgoodI=ayahsgoodI+1;">الصفحة التالية <i class="fa-duotone fa-backward fa-fade"
+              style="--fa-secondary-opacity: 0.8;"></i></button>
+        </div>
+      </ng-template>
+      <ng-template #TimeDialog let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            الوقت والتاريخ</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <div>التاريخ الهجري:{{sdate}}</div>
+          <div>التاريخ الميلادي:{{s2date}}</div>
+          <div>الوقت :{{Time}}</div>
+          <div class="">
+            <div class="">
+              <div class="clock">
+                <div class="outer-clock-face">
+                  <div class="marking marking-one"></div>
+                  <div class="marking marking-two"></div>
+                  <div class="marking marking-three"></div>
+                  <div class="marking marking-four"></div>
+                  <div class="inner-clock-face">
+                    <div class="hand hour-hand"></div>
+                    <div class="hand min-hand"></div>
+                    <div class="hand second-hand"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3> تحويل التاريخ من ميلادي إلى هجري </h3>
+          <!-- <div class="mb-3 form-check form-switch">
+            <input #ishig2 class="form-check-input" (change)="ishig = !ishig" type="checkbox" role="switch"
+              id="flexSwitchCheckChecked">
+            <label class="form-check-label" for="flexSwitchCheckChecked">{{ishig ?'هجري إلى ميلادي':" ميلادي إلى
+              هجري"}}</label>
+          </div> -->
+          <ngb-datepicker style="direction: ltr;" #dp [(ngModel)]="Date" [firstDayOfWeek]="7"> </ngb-datepicker>
+          <h6 *ngIf="currday">النتيجة : {{currday}}</h6>
+          <button nbButton hero status="success" class="my-2" (click)="getDate()">تحويل</button>
+        </div>
+      </ng-template>
+
+      <ng-template #SirasMod let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            تعلم السيرة النبوية والصحابة</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <div class="input-group my-3" style="
+          direction: rtl;
+      ">
+            <button class="input-group-text btn btn-dark" id="basic-addon1" (click)="SarchAthkar(search.value)"><i
+                class="fa fa-duotone fa-search"></i></button>
+            <input #search (keyup)="SarchSiras(search.value)" type="text" class="form-control" placeholder="بحث عن شيئ"
+              aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div *ngIf="Siras1.length == 0" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12"
+              *ngFor="let item of Siras.slice(currentSirasPageI * 10,(currentSirasPageI * 10)+10);index as i">
+              <button style="width: 98%;" (click)="modal.dismiss();openvSirasHadith(item,SirasMod);" class="mb-2"
+                nbButton hero [status]="item.color!">
+                <div style="
+    position: relative;
+    left: -30px;
+">{{item.name | slice:0:20}} {{item.name.length > 20? '...':''}}</div><span style="
+    font-size: 8px;
+    color: black;
+    right: -65px;
+    top: -13px;
+    position: relative;
+">{{item.type == 'book'?'كتاب':item.type == 'video'?"فيديو":item.type == 'audio'?"صوت":""}}</span>
+
+              </button>
+            </div>
+          </div>
+          <div>
+
+            <button class="mx-2" *ngIf="currentSirasPageI!=0" mat-raised-button color="accent"
+              (click)="currentSirasPageI=currentSirasPageI-1;"><i class="fa-duotone fa-forward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة </button>
+            <button *ngIf=" currentSirasPageI+1<(Siras.length / 10)" mat-raised-button color="primary"
+              (click)="currentSirasPageI=currentSirasPageI+1;">الصفحة التالية <i class="fa-duotone fa-backward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i></button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #mohadrDialog let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            تعلم رواية ورش عن نافع </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <!-- <button class="btn btn-dark mb-3" (click)="open2m(moshafWarsh)">مصحف ورش pdf</button> -->
+
+          <div *ngIf="mohader.length == 0" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12"
+              *ngFor="let item of mohader.slice(currentmohaderPageI * 10,(currentmohaderPageI * 10)+10);index as i">
+              <button style="width: 98%;" (click)="modal.dismiss();openvidHadith(item,mohadrDialog);" class="mb-2"
+                nbButton hero [status]="item.color!">
+                <div style="
+    position: relative;
+    left: -30px;
+">{{item.name | slice:0:20}} {{item.name.length > 20? '...':''}}</div><span style="
+    font-size: 8px;
+    color: black;
+    right: -65px;
+    top: -13px;
+    position: relative;
+">{{item.man}}</span>
+
+              </button>
+            </div>
+          </div>
+          <div>
+            <button class="mx-2" *ngIf="currentmohaderPageI!=0" mat-raised-button color="accent"
+              (click)="currentmohaderPageI=currentmohaderPageI-1;"><i class="fa-duotone fa-forward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة </button>
+            <button *ngIf=" currentmohaderPageI+1<(mohader.length / 10)" mat-raised-button color="primary"
+              (click)="currentmohaderPageI=currentmohaderPageI+1;">الصفحة التالية <i
+                class="fa-duotone fa-backward fa-fade" style="--fa-secondary-opacity: 0.8;"></i></button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #moshafWarsh let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            تعلم رواية ورش عن نافع </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <iframe style="width: 100%;height: 100%;"
+            src="https://ar.islamway.net/bundles/viewers/pdfjs-1.9.426/web/viewer.php?file=https://books.islamway.net/1/Mushaf_AlMadinah_Warsh_549.pdf">
+
+          </iframe>
+        </div>
+      </ng-template>
+
+      <ng-template #help let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            مساعدة</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <h1>مساعدة</h1>
+          <h6>أولا للتحكم في المصحف والذهاب لسورة او سماع سورة او التحكم في الإعدادات عليك النقر على القائمة التي بها كل
+            شيئ من مواقيت الصلاة وتفسير القران الخ...</h6>
+          <h6>إذا كنت تستخدم المصحف ذي الصفحتين فيمكنك تقليب الصفحات كما لو انه كتاب عادي</h6>
+          <h6>أما إذا كنت تستخدم المصحف ذي الصفحة الواحدة فتقليبه يكون بالضغط يمين الصفحة ويسارها</h6>
+          <h6>التحكم في القارئ يكون من علامة الصوت</h6>
+          <h6></h6>
+        </div>
+      </ng-template>
+
+      <ng-template #AssmaDialog let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            أسماء الله الحسنى</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <div *ngIf="assma.length == 0" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12"
+              *ngFor="let item of assma.slice(currentassmaPageI * 10,(currentassmaPageI * 10)+10);index as i">
+              <button style="width: 98%;"
+                (click)="modal.dismiss();openHadith('<strong>'+$any(item).name+'</strong><br>'+$any(item).text,AssmaDialog);"
+                class="mb-2" nbButton hero status="success">{{$any(item).name}}</button>
+            </div>
+          </div>
+          <div>
+            <button class="mx-2" *ngIf="currentassmaPageI!=0" mat-raised-button color="accent"
+              (click)="currentassmaPageI=currentassmaPageI-1;"><i class="fa-duotone fa-forward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة </button>
+            <button *ngIf=" currentassmaPageI+1<(assma.length / 10)" mat-raised-button color="primary"
+              (click)="currentassmaPageI=currentassmaPageI+1;">الصفحة التالية <i class="fa-duotone fa-backward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i></button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #TestDialog let-modal>
+        <div class="modal-header" style="direction: rtl;">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            أسئلة إسلامية</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <div class="row">
+            <div class="col-lg-4 col-md-12 text-center mb-3"> ألاسئلة غير المجابة :<span
+                class="text-bg-primary p-1">{{noone}}
+              </span>
+            </div>
+            <div class="col-lg-4 col-md-12 text-center mb-3"> الإجابات الصحيحة :<span
+                class="text-bg-success p-1">{{goodone}}
+              </span>
+            </div>
+            <div class="col-lg-4 col-md-12 text-center mb-3"> الإجابات الخاطئة :<span
+                class="text-bg-danger p-1">{{badone}}</span>
+            </div>
+          </div>
+          <div *ngIf="testQ.length == 0" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12"
+              *ngFor="let item of testQ.slice(currentPageI * 10,(currentPageI * 10)+10);index as i">
+              <button style="width: 98%;"
+                (click)="isCorrect=null;currentopt='';modal.dismiss();currentTestIndex =(i+ (currentPageI * 10));open2m(TestDialogShow);"
+                class="mb-2" nbButton hero [status]="getdoneToDun((i+ (currentPageI * 10)))"> {{item.question
+                |slice:0:30}} {{item.question.length >30?'...':''}}</button>
+            </div>
+          </div>
+          <div>
+            <button class="mx-2" *ngIf="currentPageI!=0" mat-raised-button color="accent"
+              (click)="currentPageI=currentPageI-1;"><i class="fa-duotone fa-forward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة </button>
+            <button *ngIf=" currentPageI+1<(testQ.length / 10)" mat-raised-button color="primary"
+              (click)="currentPageI=currentPageI+1;">الصفحة التالية <i class="fa-duotone fa-backward fa-fade"
+                style="--fa-secondary-opacity: 0.8;"></i></button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #TestDialogShow let-modal>
+        <div class="modal-header" style="
+        direction: rtl;
+    ">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title" style="direction: rtl;color: black;">
+            {{testQ[currentTestIndex].question}}</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <nb-card [status]="isCorrect===null?'primary':isCorrect===true?'success':'danger'">
+            <nb-card-header>{{testQ[currentTestIndex].question}}</nb-card-header>
+            <nb-card-body>
+              <h4 [style.color]="isCorrect===null?'':isCorrect===true?'green ':'red '">
+                {{isCorrect===null?'':isCorrect===true?'إجابة صحيحة':'إجابة خاطئة'}}
+              </h4>
+              <h4 *ngIf="isCorrect===false" [style.color]="'#3a6dff'">
+                الإجابة الصحيحة : <div style="color:green">{{testQ[currentTestIndex].answer}}</div>
+              </h4>
+              <br>
+              <nb-radio-group [(ngModel)]="currentopt">
+                <nb-radio *ngFor="let option of testQ[currentTestIndex].choices" [value]="option">
+                  {{ option }} <i style="
+                  color: green;
+                  padding-right: 22px;
+              " [innerHTML]="isCorrect===false?testQ[currentTestIndex].answer == option?'الإجابة الصحيحة ':'':''">
+                  </i>
+                </nb-radio>
+              </nb-radio-group>
+            </nb-card-body>
+            <nb-card-footer>
+              <br>
+              <button [disabled]="!currentopt || isCorrect !== null" (click)="shec()" class="mb-2" nbButton hero
+                [status]="isCorrect===null?'primary':isCorrect===true?'success':'danger'">تحقق من
+                الإجابة</button>
+              <i *ngIf="isCorrect === true" class=" fa-duotone fa-square-check fa-bounce" style="--fa-primary-color: #03a007; --fa-secondary-color: #000000; --fa-secondary-opacity: 0.5;    margin-left: 20px;
+                margin-right: 20px;
+                font-size: 41px;"></i>
+              <i *ngIf="isCorrect === false" class="fa-duotone fa-square-xmark fa-shake" style="--fa-primary-color: #cc0005; --fa-secondary-color: #000000; --fa-secondary-opacity: 0.5;    margin-left: 20px;
+                margin-right: 20px;
+                font-size: 41px;"></i>
+              <br>
+              <button *ngIf="isCorrect!==null &&currentTestIndex != 0"
+                (click)="currentTestIndex=currentTestIndex-1;isCorrect=null;currentopt=''" class="m-1" nbButton hero
+                status="danger"> السابق</button>
+              <button *ngIf="isCorrect!==null &&currentTestIndex != testQ.length"
+                (click)="currentTestIndex=currentTestIndex+1;isCorrect=null;currentopt=''" class="m-1" nbButton hero
+                status="primary"> التالي</button>
+            </nb-card-footer>
+          </nb-card>
+        </div>
+      </ng-template>
+
+      <ng-template #azkar12 let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title"> إختر الذكر </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body row" style="direction: rtl;">
+          <div class="input-group my-3" style="
+          direction: rtl;
+      ">
+            <button class="input-group-text btn btn-dark" id="basic-addon1" (click)="SarchAthkar(search.value)"><i
+                class="fa fa-duotone fa-search"></i></button>
+            <input #search (keyup)="SarchAthkar(search.value)" type="text" class="form-control" placeholder="بحث عن ذكر"
+              aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div *ngIf="azkar.length == 0 && !search.value" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner></div>
+          <button (click)="modal.dismiss();currentZeekr = item;open2m(azkarshow)" style="border: 2px solid darkblue;
+    border-radius: 8px;" *ngFor="let item of azkar" class="btn btn-primary my-1 mx-md-1 col-lg-3 col-md-6 col-sm-1">
+            {{item.category}}
+          </button>
+        </div>
+      </ng-template>
+
+      <ng-template #azkarshow let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title"> الذكر </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body row" style="direction: rtl;">
+          <h2>{{currentZeekr.category}}</h2>
+          <audio [src]="'/assets/Adhkar-json'+currentZeekr.audio" class="mb-3" controls style="width: 100%;"></audio>
+          <hr>
+          <div *ngIf="currentZeekr.array.length == 0" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <mat-stepper orientation="vertical" [linear]="true" #stepper [dir]="'rtl'">
+            <mat-step *ngFor="let item of currentZeekr.array;index as i">
+              <ng-template matStepLabel></ng-template>
+              <div>
+                <p><audio [src]="'/assets/Adhkar-json'+item.audio" class="my-2" controls style="width: 100%;"></audio>
+                </p>
+                <p style="color: white !important;">{{item.text}}</p>
+                <button class="btn" style="color: white !important;">التكرار {{item.count}} <i
+                    class="fa-duotone fa-rotate fa-spin" style="--fa-secondary-opacity: 0.7;"></i></button>
+                <br>
+                <button class="mx-2" *ngIf="i!=0" mat-raised-button color="accent" matStepperPrevious><i
+                    class="fa-duotone fa-forward fa-fade" style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة
+                </button>
+                <button *ngIf="i+1!=currentZeekr.array.length" mat-raised-button matStepperNext color="primary">الصفحة
+                  التالية
+                  <i class="fa-duotone fa-backward fa-fade" style="--fa-secondary-opacity: 0.8;"></i></button>
+                <button *ngIf="i+1==currentZeekr.array.length && currentZeekr.array.length != 1" mat-raised-button
+                  color="primary" (click)="stepper.reset()">إعادة <i class="fa-duotone fa-rotate fa-spin"
+                    style="--fa-secondary-opacity: 0.7;"></i></button>
+              </div>
+            </mat-step>
+          </mat-stepper>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-dark" (click)="modal.dismiss();"> إغلاق</button>
+        </div>
+      </ng-template>
+
+      <ng-template #Soura let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title"> تفاصيل {{currentSoura.name_long}}
+          </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body row" style="direction: rtl;">
+          <p> رقمها : <span [innerHTML]="currentSoura.number"></span></p>
+          <p> عدد اياتها : <span [innerHTML]="currentSoura.number_of_verses"></span></p>
+          <p> ترتيبها في النزول : <span [innerHTML]="currentSoura.sequence"></span></p>
+          <p> نزلت في: <span [innerHTML]="currentSoura.revelation"></span></p>
+          <p> معنى اسمها : <span [innerHTML]="currentSoura.maeni_asamuha"></span></p>
+          <p> سبب تسميتها : <span [innerHTML]="currentSoura.sabab_tasmiatiha"></span></p>
+          <p> اساميها الاخرى: <span [innerHTML]="currentSoura.asmawuha"></span></p>
+          <p> سبب نزولها : <span [innerHTML]="currentSoura.sabab_nuzuliha"></span></p>
+          <p> فضائلها:
+            <span *ngFor="let item of currentSoura.fadluha;index as i"><br>{{i+1}}- {{item}}</span>
+          </p>
+          <p> مناسباتها:
+            <span *ngFor="let mnas of currentSoura.munasabatiha;index as i"><br>{{mnas}}</span>
+          </p>
+          <p> ملخص : {{currentSoura.tafsir}}</p>
+          <hr>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-dark" (click)="modal.dismiss();"> إغلاق</button>
+        </div>
+      </ng-template>
+
+
+      <ng-template #hadishShow let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" style="direction: rtl;" id="modal-basic-title"> الأحاديث </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body row" style="direction: rtl;" #cardbody>
+          <div class="input-group mb-3">
+            <button class="input-group-text btn btn-dark" id="basic-addon1" (click)="SarchAhadith(search.value)"><i
+                class="fa fa-duotone fa-search"></i></button>
+            <input #search (keyup)="SarchAhadith(search.value)" type="text" class="form-control" placeholder="بحث"
+              aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <p>{{search.value && ahadithsarch.length !=0? 'النتائج :'+ahadithsarch.length:''}}</p>
+          <p>{{search.value && ahadithsarch.length ==0? 'لا يوجد نتائج':''}}</p>
+          <div *ngIf="ahadithsarch.length == 0 && !search.value" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <div *ngFor="let item of ahadithsarch.slice(pageI * 20,(pageI * 20)+20)index as i" style="cursor: pointer;">
+            <div class="card text-bg-dark mb-3">
+              <div class="card-header">
+
+              </div>
+              <div class="card-body">
+                <h5 class="card-title"
+                  [innerHtml]="($any(item).arabicText ? $any(item).arabicText.length  : item.arab.length) > 370 ?(($any(item).arabicText || item.arab) | slice:0:370) +'...':($any(item).arabicText ||item.arab)"
+                  style="
+            line-height: 1.9;
+color: white !important;
+        "></h5>
+                <button class="btn btn-primary"
+                  (click)="modal.dismiss();openHadith(($any(item).arabicText || item.arab),hadishShow);closeAll();">
+                  تصفح الحديث
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+
+            <button class="mx-2" *ngIf="pageI!=0" mat-raised-button color="accent"
+              (click)="pageI=pageI-1;cardbody.scrollTo(0,0)"
+              onclick="document.getElementsByClassName('modal')[0].scrollTo(0,0)"><i
+                class="fa-duotone fa-forward fa-fade" style="--fa-secondary-opacity: 0.8;"></i> الصفحة السابقة </button>
+            <button *ngIf="pageI<(ahadithsarch.length / 20)" mat-raised-button color="primary"
+              (click)="pageI=pageI+1;cardbody.scrollTo(0,0)"
+              onclick="document.getElementsByClassName('modal')[0].scrollTo(0,0)">الصفحة التالية <i
+                class="fa-duotone fa-backward fa-fade" style="--fa-secondary-opacity: 0.8;"></i></button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-dark" (click)="modal.dismiss();"> إغلاق</button>
+        </div>
+      </ng-template>
+
+      <ng-template #dialogContent2 let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" style="    direction: rtl;" id="modal-basic-title"> إختر التفسير </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body" style="direction: rtl;">
+          <div *ngIf="tafsers.length == 0" style="
+          display: flex;
+          width: 100%;
+          justify-content: center;
+      "><mat-spinner color="success"></mat-spinner>
+          </div>
+          <ul class="dropdown-menu" style="
+    display: block;
+    position: inherit;
+">
+            <li *ngFor="let item of tafsers">
+              <button (click)="modal.dismiss();tafsir=item.id;this.openList(setting, 'end')" class="dropdown-item"
+                style="    border: 2px solid darkblue;
+        border-radius: 8px;" [class.active]="tafsir==item.id">
+                <h6>{{item.name}}</h6>
+                <p>المؤلف : {{item.author}}</p>
+                <p>اللغة : {{item.language}}</p>
+                <p>من كتاب : {{item.book_name}}</p>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </ng-template>
+
+      <ng-template #dialogContent let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title"> إختر القارئ </h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body row" style="direction: rtl;">
+          <button class="btn btn-info col-lg-3 col-sm-5 mx-lg-2 my-2"
+            (click)="modal.close({name:'محمود خليل الحصري ورش',url:'https://quran.islamway.net/quran3/181/'})">محمود
+            خليل
+            الحصري
+            ورش</button>
+          <button class="btn btn-info col-lg-3 col-sm-5 mx-lg-2 my-2"
+            (click)="modal.close({name:'محمد صديق المنشاوي حفص عن عاصم',url:'https://quran.islamway.net/quran3/133/'})">
+            محمد
+            صديق
+            المنشاوي حفص عن عاصم</button>
+          <button class="btn btn-info col-lg-3 col-sm-5 mx-lg-2 my-2"
+            (click)="modal.close({name:' أبو بكر الشاطري',url:'https://quran.islamway.net/quran3/341/'})"> أبو بكر
+            الشاطري</button>
+          <button class="btn btn-info col-lg-3 col-sm-5 mx-lg-2 my-2"
+            (click)="modal.close({name:' مشاري بن راشد العفاسي ',url:'https://quran.islamway.net/quran3/506/213/128/'})">
+            مشاري
+            بن راشد العفاسي</button>
+        </div>
+      </ng-template>
+
+      <button *ngIf="buttonsSow" onclick="$('#el').toggle(100)" class="btn btn-primary"
+        style="position: fixed;right :0;top:50px;z-index: 999999;">
+        <i class="fa-duotone fa-volume-high"
+          style="--fa-primary-color: #00bcdd; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 0.9;font-size: 22px;"></i>
+      </button>
+
+
+      <div id="el" #v style="display:none;z-index: 999;    padding-top: 62px;">
+        <button onclick="$('#el').toggle(100)" class="btn btn-primary" style="position: absolute;left :0;top:80px;"><i
+            class="fa fa-close"></i></button>
+        <div *ngIf="currentAudio.name" class="mt-3 text-center">
+          <h2>{{currentAudio.name}}</h2>
+        </div>
+        <div *ngIf="currentAudio.sora" class="mt-3 text-center">
+          <h4>{{currentAudio.sora}}</h4>
+        </div>
+        <div *ngIf="currentAudio.url">
+          <audio #audio [src]="currentAudio.url" [autoplay]="autoPlay" (load)="seti(audio);" controls
+            style="width:100%"></audio>
+
+          <div class="d-flex justify-content-between">
+            <div>
+              <button (click)="addone(audio)" class="btn btn-secondary mx-2">
+                <i class="fa-duotone fa-forward"></i> التالي</button>
+              <button (click)="audio.currentTime = audio.currentTime + 5" class="btn btn-secondary">
+                <i class="fa-duotone fa-arrow-right"></i> 5+</button>
+            </div>
+            <div>
+              <button (click)="audio.paused?audio.play():audio.pause()" class="btn btn-secondary">
+                <i *ngIf="audio.paused" class="fa-duotone fa-play"></i>
+                <i *ngIf="!audio.paused" class="fa-duotone fa-pause"></i>
+              </button>
+              <button (click)="audio.currentTime = 0" class="btn btn-secondary">
+                <i class="fa-duotone fa-stop" style="--fa-primary-color: red;--fa-secondary-color: red;"></i>
+              </button>
+            </div>
+            <div>
+              <button (click)="audio.currentTime = audio.currentTime - 5" class="btn btn-secondary">
+                5- <i class="fa-duotone fa-arrow-left"></i> </button>
+              <button (click)="backone(audio)" class="btn btn-secondary mx-2">
+                <i class="fa-duotone fa-backward"></i> السابق</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: none;">
+      </div>
+    </div>
+  </nb-layout-column>
+
+  <!-- <nb-layout-footer>
+  </nb-layout-footer> -->
+
+</nb-layout>

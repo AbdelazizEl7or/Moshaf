@@ -1,0 +1,14 @@
+  {
+    "/timesprayer/*": {
+      "target": "https://timesprayer.com/widgets.php?frame=1&lang=ar&name=Sib&sound=true&avachang=true&fcolor=000000&tcolor=2D959C&frcolor=2D959C&",
+      "changeOrigin": true,
+      "secure": false,
+      "logLevel": "debug"
+    },
+    "/tafsir/*": {
+      "target": "https://quran.ksu.edu.sa/",
+      "changeOrigin": true,
+      "secure": false,
+      "logLevel": "debug"
+    }
+  }
